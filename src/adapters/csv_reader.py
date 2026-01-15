@@ -3,13 +3,14 @@ import logging
 from datetime import datetime
 from uuid import UUID
 from typing import Iterator
+from pathlib import Path
 
 from src.domain.transaction import Transaction
 
 logger = logging.getLogger(__name__)
 
 class CsvReader:
-  def __init__(self, filepath: str):
+  def __init__(self, filepath: Path):
     self.filepath = filepath
 
   def read(self) -> Iterator[Transaction]:

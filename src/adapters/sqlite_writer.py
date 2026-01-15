@@ -1,16 +1,25 @@
 import logging
 import sqlite3
 from typing import List
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
 from src.domain.transaction import Transaction
 class SqliteWriter:
-  def __init__(self, db_path: str):
-    self.db_path = str(db_path)
-    self.conn = sqlite3.connect(self.db_path)
-    self._setup_db()
+  def __init__(self, db_path: Path):
+    self.db_path = db_path
+    self.conn: sqlite3.Connection | None = None
 
+  def __enter__(self) -> "SqliteWriter":
+    self.conn = sqlite3.connect(str(self.db_path))
+    self._setup_db()
+    return self
+  
+  def __exit__(self, exc_type, exc_val, exc_tb):
+    if self.conn is not None:
+      self.conn.close()
+  
   def _setup_db(self):
     cursor = self.conn.cursor()
 
@@ -50,8 +59,8 @@ class SqliteWriter:
       )
       for t in batch
     ]
-
     cursor = self.conn.cursor()
+
     try:
       sql = """
         INSERT INTO transactions
@@ -59,10 +68,8 @@ class SqliteWriter:
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
       """
       cursor.executemany(sql, data_to_insert)
+      self.conn.commit()
     except Exception as e:
       self.conn.rollback()
-      logger.error(f"Erro ao salvar batch: {e}")
-      raise e
-  
-  def close(self):
-    self.conn.close()
+      logger.exception(f"Erro ao salvar batch: {e}")
+      raise
