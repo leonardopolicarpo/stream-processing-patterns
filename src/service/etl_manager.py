@@ -21,7 +21,7 @@ class ETLManager:
     for transaction in self.reader.read():
       if transaction.status == 'FRAUD_DETECTED':
         total_frauds += 1
-        continue
+        # continue
     
       batch.append(transaction)
 

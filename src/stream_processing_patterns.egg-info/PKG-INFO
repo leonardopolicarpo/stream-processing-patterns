@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: stream-processing-patterns
+Version: 0.1.0
+Summary: Lab de Engenharia de Dados e Performance com Python
+Author: Leonardo Policarpo
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: pandas
+Requires-Dist: streamlit
+Requires-Dist: psutil
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+
+# stream-processing-patterns
+Processing Gigabytes of data with Megabytes of RAM. A showcase of optimization, SOLID principles, and low-level resource management in Python &amp; Node.js.

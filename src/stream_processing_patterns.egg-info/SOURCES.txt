@@ -1,0 +1,14 @@
+README.md
+pyproject.toml
+src/adapters/csv_reader.py
+src/adapters/sqlite_writer.py
+src/dashboard/app.py
+src/domain/transaction.py
+src/ports/input_port.py
+src/scripts/generate_data.py
+src/service/etl_manager.py
+src/stream_processing_patterns.egg-info/PKG-INFO
+src/stream_processing_patterns.egg-info/SOURCES.txt
+src/stream_processing_patterns.egg-info/dependency_links.txt
+src/stream_processing_patterns.egg-info/requires.txt
+src/stream_processing_patterns.egg-info/top_level.txt

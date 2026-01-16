@@ -1,0 +1,6 @@
+adapters
+dashboard
+domain
+ports
+scripts
+service
