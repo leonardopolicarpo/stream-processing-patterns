@@ -69,3 +69,8 @@ venv.bak/
 
 # Big Data
 data/*
+
+# Build artifacts
+*.egg-info/
+dist/
+build/

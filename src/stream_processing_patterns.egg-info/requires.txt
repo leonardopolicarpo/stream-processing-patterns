@@ -1,8 +1,0 @@
-pandas
-streamlit
-psutil
-
-[dev]
-pytest
-black
-isort
