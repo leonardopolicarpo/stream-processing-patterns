@@ -1,7 +1,6 @@
 import csv
 import logging
 from datetime import datetime
-from uuid import UUID
 from typing import Iterator
 from pathlib import Path
 
@@ -21,7 +20,7 @@ class CsvReader:
       for row in csv_reader:
         try:
           yield Transaction(
-            id=UUID(row[0]),
+            id=row[0],
             sender=row[1],
             receiver=row[2],
             amount=row[3],

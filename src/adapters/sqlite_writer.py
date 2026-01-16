@@ -24,7 +24,7 @@ class SqliteWriter:
     cursor = self.conn.cursor()
 
     cursor.execute("PRAGMA journal_mode=WAL;")
-    cursor.execute("PRAGMA synchronous=NORMAL;")
+    cursor.execute("PRAGMA synchronous=OFF;")
 
     cursor.execute("""
       CREATE TABLE IF NOT EXISTS transactions (
@@ -47,7 +47,7 @@ class SqliteWriter:
     
     data_to_insert = [
       (
-        str(t.id),
+        t.id,
         t.sender,
         t.receiver,
         str(t.amount),

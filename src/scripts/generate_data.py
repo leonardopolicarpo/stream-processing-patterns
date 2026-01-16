@@ -5,7 +5,7 @@ import uuid
 import time
 from pathlib import Path
 
-DEFAULT_ROWS = 1_000_000
+DEFAULT_ROWS = 10_000_000
 CURRENCIES = ['BRL', 'USD', 'EUR', 'GBP']
 STATUSES = ['CONFIRMED', 'CONFIRMED', 'CONFIRMED', 'FAILED', 'FRAUD_DETECTED']
 NETWORKS = ['PIX', 'SWIFT', 'BLOCKCHAIN_ETH', 'VISA_DIRECT']
@@ -19,7 +19,6 @@ def generate_dataset(rows: int, output_path: str):
   print(f"Schema: UUID | Wallet (Source) | Wallet (Dest) | Amount | Fee | Currency | Network | Status | Timestamp(ns)")
 
   start_time = time.time()
-  Path(output_path).mkdir(parents=True, exist_ok=True)
 
   with open(output_path, 'w', newline='', encoding='utf-8') as f:
     writer = csv.writer(f)
@@ -55,7 +54,7 @@ def generate_dataset(rows: int, output_path: str):
         random.choice(CURRENCIES),
         network,
         random.choice(STATUSES),
-        time.time_ns
+        time.time_ns()
       ]
       writer.writerow(row)
 
@@ -74,4 +73,5 @@ if __name__ == "__main__" :
   parser.add_argument('--out', type=str, default='data/ledger.csv')
 
   args = parser.parse_args()
+  print(f"Aquiii: {args}")
   generate_dataset(args.rows, args.out)

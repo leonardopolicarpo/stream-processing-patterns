@@ -6,7 +6,7 @@ from src.ports.input_port import TransactionReader, TransactionWriter
 logger = logging.getLogger(__name__)
 
 class ETLManager:
-  def __init__(self, reader: TransactionReader, writer: TransactionWriter, batch_size: int = 10_000):
+  def __init__(self, reader: TransactionReader, writer: TransactionWriter, batch_size: int = 100_000):
     self.reader = reader
     self.writer = writer
     self.batch_size = batch_size
@@ -23,14 +23,15 @@ class ETLManager:
         total_frauds += 1
         continue
     
-    batch.append(transaction)
+      batch.append(transaction)
 
-    if len(batch) >= self.batch_size:
-      self._flush(batch)
-      total_processed += len(batch)
+      if len(batch) >= self.batch_size:
+        current_batch_size = len(batch)
+        self._flush(batch)
+        total_processed += current_batch_size
 
-      if total_processed % 100_000 == 0:
-        logger.info(f"Progresso: {total_processed} transações salvas ... ")
+        if total_processed % 100_000 == 0:
+          logger.info(f"Progresso: {total_processed} transações salvas ... ")
 
     if batch:
       self._flush(batch)
