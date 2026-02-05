@@ -14,7 +14,7 @@ authors = [
 dependencies = [
   "pandas",
   "streamlit",
-  "psutil",  # Útil pro seu dashboard monitorar RAM depois
+  "psutil",
 ]
 
 [project.optional-dependencies]
