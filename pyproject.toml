@@ -13,8 +13,7 @@ authors = [
 ]
 dependencies = [
   "pandas",
-  "streamlit",
-  "psutil",
+  "streamlit"
 ]
 
 [project.optional-dependencies]
