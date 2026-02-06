@@ -25,7 +25,7 @@ current_filename = st.session_state["shared_filename"]
 
 def main():
   st.title("📊 Financial Analytics")
-  st.markdown("Visão consolidada do Ledger Financeiro.")
+  st.markdown("Consolidated view of the Financial Ledger.")
   st.markdown("---")
 
   repo = DashboardRepository()
@@ -36,10 +36,10 @@ def main():
     st.markdown("---")
     render_fraud_analysis(metrics)
     
-    st.caption(f"Última atualização do banco: {metrics.last_update}")
+    st.caption(f"Last database update: {metrics.last_update}")
   else:
-    st.warning("Banco de dados vazio!")
-    st.info("💡 Vá até a aba **'Data Factory'** no menu lateral para gerar massa de dados.")
+    st.warning("Database is empty or not found!")
+    st.info("💡 Go to the **'Data Factory'** tab on the sidebar to generate data first.")
 
 if __name__ == "__main__":
   main()

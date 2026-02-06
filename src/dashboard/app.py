@@ -20,16 +20,16 @@ def main():
   st.subheader("High Performance ETL Engine & Audit System")
   
   st.markdown("""
-  ### Bem-vindo ao Control Plane
+  ### Welcome to the Control Plane
   
-  Este sistema demonstra padrões avançados de Engenharia de Dados utilizando Python, 
-  otimização de memória e processamento em lote.
+  This system demonstrates advanced Data Engineering patterns using Python, 
+  memory optimization, and batch processing.
   
-  #### 🚀 Módulos Disponíveis (Menu Lateral):
+  #### 🚀 Available Modules (Sidebar):
   
-  * **🏭 Data Factory:** Gerador de dados sintéticos de alta performance (Simulação de Big Data).
-  * **⚡ Pipeline Runner:** (Em breve) Orquestrador de ETL com monitoramento em tempo real.
-  * **📊 Analytics:** Dashboard de conciliação financeira e detecção de fraudes.
+  * **🏭 Data Factory:** High-performance synthetic data generator (Big Data Simulation).
+  * **⚡ Pipeline Runner:** ETL Orchestrator with real-time monitoring.
+  * **📊 Analytics:** Financial reconciliation and fraud detection dashboard.
   
   ---
   """)
@@ -38,7 +38,7 @@ def main():
   
   with col1:
     st.info("""
-    **Arquitetura:**
+    **Architecture:**
     * **Core:** Python 3.12 (Generators + Batch Processing)
     * **Database:** SQLite (WAL Mode)
     * **Interface:** Streamlit (MVC Pattern)
@@ -46,10 +46,10 @@ def main():
       
   with col2:
     st.success("""
-    **Performance Atual:**
-    * Ingestão: ~26k linhas/segundo
-    * Uso de RAM: < 100MB (Constante)
-    * Capacidade: Testado com 10M+ registros
+    **Current Performance:**
+    * Ingestion: ~40k rows/second
+    * RAM Usage: < 100MB (Constant)
+    * Capacity: Tested with 10M+ records
     """)
 
 if __name__ == "__main__":

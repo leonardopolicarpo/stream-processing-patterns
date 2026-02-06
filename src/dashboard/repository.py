@@ -14,6 +14,7 @@ class DashboardMetrics:
 
 class DashboardRepository:
   def __init__(self):
+    # Adjusts path to locate the 'data' folder relative to this file
     self.data_dir = Path(__file__).resolve().parent.parent.parent / "data"
 
   @st.cache_data(ttl=60, show_spinner=False)
@@ -24,19 +25,18 @@ class DashboardRepository:
       return None
 
     try:
-      conn = sqlite3.connect(str(db_path))
-      query = """
-      SELECT 
-        COUNT(*) as total_tx,
-        SUM(amount) as total_volume,
-        SUM(CASE WHEN status = 'FRAUD_DETECTED' THEN 1 ELSE 0 END) as fraud_count,
-        SUM(CASE WHEN status = 'FRAUD_DETECTED' THEN amount ELSE 0 END) as fraud_volume,
-        MAX(timestamp) as last_update
-      FROM transactions
-      """
-      df = pd.read_sql(query, conn)
-      conn.close()
-    
+      with sqlite3.connect(str(db_path)) as conn:
+        query = """
+        SELECT 
+          COUNT(*) as total_tx,
+          SUM(amount) as total_volume,
+          SUM(CASE WHEN status = 'FRAUD_DETECTED' THEN 1 ELSE 0 END) as fraud_count,
+          SUM(CASE WHEN status = 'FRAUD_DETECTED' THEN amount ELSE 0 END) as fraud_volume,
+          MAX(timestamp) as last_update
+        FROM transactions
+        """
+        df = pd.read_sql(query, conn)
+      
       if df.empty:
         return None
 
@@ -51,5 +51,5 @@ class DashboardRepository:
       )
       
     except Exception as e:
-      st.error(f"Erro ao ler banco de dados: {e}")
+      st.error(f"Error reading database: {e}")
       return None

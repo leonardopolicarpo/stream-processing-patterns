@@ -12,7 +12,7 @@ class ETLManager:
     self.batch_size = batch_size
 
   def run(self):
-    logger.info(f"Iniciando processamento. Batch Size: {self.batch_size}")
+    logger.info(f"Starting processing. Batch Size: {self.batch_size}")
 
     batch: List[Transaction] = []
     total_processed = 0
@@ -21,6 +21,7 @@ class ETLManager:
     for transaction in self.reader.read():
       if transaction.status == 'FRAUD_DETECTED':
         total_frauds += 1
+        # Uncomment 'continue' to actually discard frauds from the database
         # continue
     
       batch.append(transaction)
@@ -31,15 +32,15 @@ class ETLManager:
         total_processed += current_batch_size
 
         if total_processed % 100_000 == 0:
-          logger.info(f"Progresso: {total_processed} transações salvas ... ")
+          logger.info(f"Progress: {total_processed} transactions saved ... ")
 
     if batch:
       self._flush(batch)
       total_processed += len(batch)
 
-    logger.info(f"Fim do processamento")
-    logger.info(f"Válidas: {total_processed}")
-    logger.info(f"Fraudes descartadas: {total_frauds}")
+    logger.info(f"Processing finished")
+    logger.info(f"Valid: {total_processed}")
+    logger.info(f"Frauds discarded: {total_frauds}")
 
   def _flush(self, batch: List[Transaction]) -> None:
     self.writer.write_batch(batch)

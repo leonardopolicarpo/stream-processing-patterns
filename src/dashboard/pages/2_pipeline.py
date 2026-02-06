@@ -29,39 +29,39 @@ project_root = Path(__file__).resolve().parent.parent.parent.parent
 file_path = project_root / "data" / target_file
 file_exists = file_path.exists()
 
-st.markdown("Orquestrador de execução do ETL.")
+st.markdown("ETL Execution Orchestrator.")
 
 if file_exists:
-  st.success(f"📂 Arquivo Alvo: **`{target_file}`** (Detectado automaticamente)")
+  st.success(f"📂 Target File: **`{target_file}`** (Auto-detected)")
 else:
-  st.error(f"⚠️ Arquivo **`{target_file}`** não encontrado na pasta data/.")
-  st.info("Vá até a aba 'Data Factory' para gerar este arquivo primeiro.")
+  st.error(f"⚠️ File **`{target_file}`** not found in data/ directory.")
+  st.info("Go to the 'Data Factory' tab to generate this file first.")
 
 st.markdown("---")
 
 col1, col2 = st.columns([1, 2])
 
 with col1:
-  st.subheader("⚙️ Configuração")
+  st.subheader("⚙️ Configuration")
   
   strategy = st.radio(
-    "Estratégia de Processamento",
+    "Processing Strategy",
     [
       "v1: Naive (In-Memory)", 
       "v2: Optimized (Generators)", 
       "v3: Multiprocessing (Turbo)"
     ],
     index=1,
-    help="v1 carrega tudo na RAM (Cuidado!). v2 usa Streams (Ideal). v3 usa todos os Cores."
+    help="v1 loads all to RAM (Risky!). v2 uses Streams (Ideal). v3 uses all Cores."
   )
   
   total_rows = st.number_input(
-    "Expectativa de Registros (Para Barra de Progresso)", 
+    "Expected Records (For Progress Bar)", 
     min_value=100_000, 
     max_value=50_000_000, 
     value=1_000_000, 
     step=100_000,
-    help="Informe o tamanho aproximado do dataset para a barra funcionar corretamente."
+    help="Enter approximate dataset size for correct progress tracking."
   )
   
   mode_map = {
@@ -71,13 +71,13 @@ with col1:
   }
   selected_mode = mode_map[strategy]
   
-  st.info(f"Modo selecionado: **{selected_mode.upper()}**")
+  st.info(f"Selected Mode: **{selected_mode.upper()}**")
   
   if selected_mode == "naive":
-    st.warning("⚠️ O modo Naive pode travar sua máquina se o CSV for > 2GB!")
+    st.warning("⚠️ Naive mode may crash your machine if CSV is > 2GB!")
   
   run_btn = st.button(
-    "▶️ Executar Pipeline", 
+    "▶️ Run Pipeline", 
     type="primary", 
     use_container_width=True,
     disabled=not file_exists
@@ -98,7 +98,7 @@ with col2:
       "--db", f"data/{db_file}"
     ]
     
-    status_text.info(f"🔥 Iniciando motor ETL no modo {selected_mode}...")
+    status_text.info(f"🔥 Starting ETL engine in {selected_mode} mode...")
     
     process = subprocess.Popen(
       cmd,
@@ -123,7 +123,7 @@ with col2:
         
         terminal.code("\n".join(logs[-15:]), language="bash")
         
-        match = re.search(r"Progresso: (\d+)", clean_line)
+        match = re.search(r"Progress: (\d+)", clean_line)
         
         if match:
           current_val = int(match.group(1))
@@ -135,7 +135,7 @@ with col2:
           elapsed = time.time() - start_time
           if elapsed > 0:
             speed = current_val / elapsed
-            status_text.markdown(f"🚀 **Velocidade:** `{speed:,.0f} tx/s` | **Processado:** `{current_val:,}` / {total_rows:,}")
+            status_text.markdown(f"🚀 **Speed:** `{speed:,.0f} tx/s` | **Processed:** `{current_val:,}` / {total_rows:,}")
         
         elif "INFO" in clean_line:
           status_text.caption(f"📜 {clean_line}")
@@ -145,7 +145,7 @@ with col2:
     
     if process.returncode == 0:
       progress_bar.progress(100)
-      status_text.success(f"✅ Pipeline finalizado em {duration:.2f}s com média de {processed_count/duration:,.0f} tx/s")
+      status_text.success(f"✅ Pipeline finished in {duration:.2f}s with average {processed_count/duration:,.0f} tx/s")
       st.balloons()
     else:
-      status_text.error(f"❌ Erro na execução (Exit Code: {process.returncode})")
+      status_text.error(f"❌ Execution Error (Exit Code: {process.returncode})")

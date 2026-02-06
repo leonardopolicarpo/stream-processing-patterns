@@ -17,11 +17,11 @@ def log(msg):
   print(msg, flush=True)
 
 def generate_dataset(rows: int, output_path: str, currency_filter: str = None):
-  log(f"🚀 Iniciando geração de {rows:,} transações financeiras...")
-  log(f"📂 Saída: {output_path}")
+  log(f"🚀 Starting generation of {rows:,} financial transactions...")
+  log(f"📂 Output: {output_path}")
   
   if currency_filter:
-    log(f"💲 Filtro de Moeda Ativo: {currency_filter}")
+    log(f"💲 Active Currency Filter: {currency_filter}")
     target_currencies = [currency_filter]
   else:
     target_currencies = CURRENCIES
@@ -68,16 +68,16 @@ def generate_dataset(rows: int, output_path: str, currency_filter: str = None):
       if (i + 1) % batch_size == 0:
         percent = int(((i + 1) / rows) * 100)
         log(f"PROGRESS:{percent}") 
-        log(f"   ... {i + 1:,} transações geradas")
+        log(f"   ... {i + 1:,} transactions generated")
 
   elapsed = time.time() - start_time
   file_size = Path(output_path).stat().st_size / (1024 * 1024)
 
-  log(f"✅ Concluído em {elapsed:.2f}s")
-  log(f"📦 Tamanho Final: {file_size:.2f} MB")
+  log(f"✅ Completed in {elapsed:.2f}s")
+  log(f"📦 Final Size: {file_size:.2f} MB")
 
 def main():
-  parser = argparse.ArgumentParser(description='Gerador de Ledger Financeiro')
+  parser = argparse.ArgumentParser(description='Financial Ledger Generator')
   parser.add_argument('--rows', type=int, default=DEFAULT_ROWS)
   parser.add_argument('--out', type=str, default='data/ledger.csv')
   parser.add_argument('--currency', type=str, default=None)

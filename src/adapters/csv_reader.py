@@ -31,5 +31,5 @@ class CsvReader:
             timestamp=datetime.fromtimestamp(int(row[8]) / 1_000_000_000)
           )
         except Exception as e:
-          logger.error(f"Falha ao parsear linha: {row} - Erro: {e}")
+          logger.error(f"Failed to parse line: {row} - Error: {e}")
           continue

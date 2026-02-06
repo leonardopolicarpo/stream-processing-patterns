@@ -71,5 +71,5 @@ class SqliteWriter:
       self.conn.commit()
     except Exception as e:
       self.conn.rollback()
-      logger.exception(f"Erro ao salvar batch: {e}")
+      logger.exception(f"Error saving batch: {e}")
       raise

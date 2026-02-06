@@ -15,12 +15,12 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def run_pipeline(source_file: Path, db_file: Path, mode: str):
-  logger.info(f"🚀 Iniciando Pipeline | Modo: {mode.upper()}")
+  logger.info(f"🚀 Starting Pipeline | Mode: {mode.upper()}")
   logger.info(f"📂 Input: {source_file.name}")
   logger.info(f"💾 Output: {db_file.name}")
 
   if not source_file.exists():
-    logger.error(f"Arquivo de entrada não encontrado: {source_file}")
+    logger.error(f"Input file not found: {source_file}")
     sys.exit(1)
 
   if mode == "optimized":
@@ -31,22 +31,22 @@ def run_pipeline(source_file: Path, db_file: Path, mode: str):
         etl = ETLManager(reader=csv_reader, writer=sqlite_writer, batch_size=100_000)
         etl.run()
     except Exception as e:
-      logger.error(f"Erro fatal no pipeline: {e}", exc_info=True)
+      logger.error(f"Fatal pipeline error: {e}", exc_info=True)
       sys.exit(1)
 
   elif mode == "naive":
-    logger.warning("⚠️ Modo NAIVE: Carregando tudo na memória (Perigo de OOM)...")
+    logger.warning("⚠️ NAIVE Mode: Loading everything into memory (OOM Risk)...")
     ...
   
   elif mode == "multiprocess":
-    logger.warning("🔥 Modo MULTIPROCESS: Iniciando cluster de workers...")
+    logger.warning("🔥 MULTIPROCESS Mode: Starting worker cluster...")
     ...
 
 def main():
   parser = argparse.ArgumentParser(description="Financial ETL CLI")
-  parser.add_argument("--file", type=str, required=True, help="Caminho do CSV")
+  parser.add_argument("--file", type=str, required=True, help="Path to input CSV")
   parser.add_argument("--mode", type=str, choices=["naive", "optimized", "multiprocess"], default="optimized")
-  parser.add_argument("--db", type=str, default="data/finance.db", help="Caminho do Banco")
+  parser.add_argument("--db", type=str, default="data/finance.db", help="Path to output Database")
 
   args = parser.parse_args()
   
